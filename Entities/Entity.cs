@@ -1,0 +1,197 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+
+namespace WebApp4.Entities
+{
+    /// <summary>
+    /// Base class for entities
+    /// </summary>
+    public abstract class Entity
+    {
+        #region Members
+
+        int? _requestedHashCode;
+        Guid _Id;
+
+        #endregion Members
+
+
+        protected Entity()
+        {
+            CreatedOn = DateTime.Now;
+            CreatedBy = HttpContext.Current.User.Identity.Name;
+            ModifiedOn = DateTime.Now;
+            ModifiedBy = HttpContext.Current.User.Identity.Name;
+            IsDeleted = false;
+        }
+
+
+        #region Properties
+
+        //public Guid OrganizationId { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name="创建日期")]
+        public DateTime? CreatedOn { get; set; }
+
+        [Display(Name = "创建人")]
+        public string CreatedBy { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "修改日期")]
+        public DateTime? ModifiedOn { get; set; }
+
+        [Display(Name = "修改人")]
+        public string ModifiedBy { get; set; }
+
+        [Display(Name = "是否删除")]
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// Get or set the persisten object identifier
+        /// </summary>
+        public virtual Guid Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                _Id = value;
+            }
+        }
+
+        #endregion Properties
+
+
+
+        #region Public Methods
+
+        /// <summary>
+        /// Check if this entity is transient, ie, without identity at this moment
+        /// </summary>
+        /// <returns>True if entity is transient, else false</returns>
+        public bool IsTransient()
+        {
+            return this.Id == Guid.Empty;
+        }
+
+        /// <summary>
+        /// Generate identity for this entity
+        /// </summary>
+        public void GenerateNewIdentity()
+        {
+            if (IsTransient())
+                this.Id = NewSequentialGuid();
+        }
+
+        /// <summary>
+        /// Change current identity for a new non transient identity
+        /// </summary>
+        /// <param name="identity">the new identity</param>
+        public void ChangeCurrentIdentity(Guid identity)
+        {
+            if (identity != Guid.Empty)
+                this.Id = identity;
+        }
+
+        #endregion
+
+
+        #region Override Methods
+
+        /// <summary>
+        /// <see cref="M:System.Object.Equals"/>
+        /// </summary>
+        /// <param name="obj"><see cref="M:System.Object.Equals"/></param>
+        /// <returns><see cref="M:System.Object.Equals"/></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is Entity))
+                return false;
+
+            if (Object.ReferenceEquals(this, obj))
+                return true;
+
+            Entity item = (Entity)obj;
+
+            if (item.IsTransient() || this.IsTransient())
+                return false;
+            else
+                return item.Id == this.Id;
+        }
+
+        /// <summary>
+        /// <see cref="M:System.Object.GetHashCode"/>
+        /// </summary>
+        /// <returns><see cref="M:System.Object.GetHashCode"/></returns>
+        public override int GetHashCode()
+        {
+            if (!IsTransient())
+            {
+                if (!_requestedHashCode.HasValue)
+                    _requestedHashCode = this.Id.GetHashCode() ^ 31;
+
+                return _requestedHashCode.Value;
+            }
+            else
+                return base.GetHashCode();
+        }
+
+        public static bool operator ==(Entity left, Entity right)
+        {
+            if (Object.Equals(left, null))
+                return (Object.Equals(right, null)) ? true : false;
+            else
+                return left.Equals(right);
+        }
+
+        public static bool operator !=(Entity left, Entity right)
+        {
+            return !(left == right);
+        }
+
+        #endregion Override Methods
+
+        /// <summary>
+        /// This algorithm generates secuential GUIDs across system boundaries, ideal for databases 
+        /// </summary>
+        /// <returns></returns>
+        public static Guid NewSequentialGuid()
+        {
+            byte[] uid = Guid.NewGuid().ToByteArray();
+            byte[] binDate = BitConverter.GetBytes(DateTime.Now.Ticks);
+
+            byte[] secuentialGuid = new byte[uid.Length];
+
+            secuentialGuid[0] = uid[0];
+            secuentialGuid[1] = uid[1];
+            secuentialGuid[2] = uid[2];
+            secuentialGuid[3] = uid[3];
+            secuentialGuid[4] = uid[4];
+            secuentialGuid[5] = uid[5];
+            secuentialGuid[6] = uid[6];
+            // set the first part of the 8th byte to '1100' so     
+            // later we'll be able to validate it was generated by us   
+            secuentialGuid[7] = (byte)(0xc0 | (0xf & uid[7]));
+            // the last 8 bytes are sequential,    
+            // it minimizes index fragmentation   
+            // to a degree as long as there are not a large    
+            // number of Secuential-Guids generated per millisecond  
+            secuentialGuid[9] = binDate[0];
+            secuentialGuid[8] = binDate[1];
+            secuentialGuid[15] = binDate[2];
+            secuentialGuid[14] = binDate[3];
+            secuentialGuid[13] = binDate[4];
+            secuentialGuid[12] = binDate[5];
+            secuentialGuid[11] = binDate[6];
+            secuentialGuid[10] = binDate[7];
+
+            return new Guid(secuentialGuid);
+        }
+    }
+}

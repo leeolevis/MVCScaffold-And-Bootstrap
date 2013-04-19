@@ -1,0 +1,48 @@
+@using BootstrapSupport
+@model Object
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/shared/_BootstrapLayout.basic.cshtml";
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Partial("_LeftMenu")
+            <!--/.well -->
+        </div>
+        <!--/span-->
+        <div class="span9">
+            @using (Html.BeginForm())
+            {
+ @Html.ValidationSummary(true)
+
+                <fieldset class="form-horizontal">
+                    <legend> 
+                @Model.GetLabel()  </legend>
+                    @foreach (var property in Model.VisibleProperties())
+                    {
+                        using (Html.ControlGroupFor(property.Name))
+                        {
+ @Html.Label(property.Name.ToSeparatedWords(), new { @class = "control-label" })
+
+                        <div class="controls">
+                            @Html.Editor(property.Name, new { @class = "input-xlarge" }) @Html.ValidationMessage(property.Name, null, new { @class = "help-inline" })
+                        </div>
+                        }
+                    }
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            确认保存</button>
+                        @Html.ActionLink("返回", "Index", null, new { @class = "btn " })
+                    </div>
+                </fieldset>
+            }
+            <div>
+                @Html.ActionLink("返回列表", "Index")
+            </div>
+            <!--/row-->
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+</div>

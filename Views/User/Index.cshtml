@@ -1,0 +1,102 @@
+@using BootstrapSupport
+@using PagedList.Mvc
+@model WebApp4.Entities.User
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Partial("_LeftMenu")
+            <!--/.well -->
+        </div>
+        <!--/span-->
+        <div class="span9">
+            <fieldset class="form-horizontal">
+                <form class="form-search">
+                <input type="text" id="searchParam" runat="server" name="param" value="@Request.QueryString["param"]" placeholder="搜索条件"
+                    class="input-medium search-query" />
+                <button type="submit" class="btn btn-primary">
+                    搜索</button>
+                @Html.ActionLink("添加", "Create", null, new { @class = "btn" })
+                </form>
+                <hr />
+                <table class="table table-striped">
+                    <caption>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.LabelFor(model => model.IsDeleted)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Username)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Email)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Password)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.IsConfirmed)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Roles)
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in ViewBag.OnePageOfUsers)
+                    {
+                        <tr>
+                            <td>
+                                @item.IsDeleted
+                            </td>
+                            <td>
+                                @item.Username
+                            </td>
+                            <td>
+                                @item.Email
+                            </td>
+                            <td>
+                                @item.Password
+                            </td>
+                            <td>
+                                @item.IsConfirmed
+                            </td>
+                            <td>
+                                @(item.Roles == null ? "None" : item.Roles.Count.ToString())
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">操作 <span class="caret">
+                                    </span></a>
+                                    <ul class="dropdown-menu">
+                                        @{
+                                            @Html.TryPartial("_actions", item as WebApp4.Entities.User)                            
+                        var routevalues = (item as WebApp4.Entities.User).GetIdValue();  
+
+                                            <li>@Html.ActionLink("编辑", "Edit", routevalues)</li>
+
+                                            <li>@Html.ActionLink("查看", "Details", routevalues)</li>
+
+                                            <li class="divider"></li>
+
+                                            <li>@Html.ActionLink("删除", "Delete", routevalues)</li> 
+                                        }
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                @Html.PagedListPager((PagedList.IPagedList)ViewBag.OnePageOfUsers, page => Url.Action("Index", new { page = page, param = Request.QueryString["param"] }),
+ new PagedList.Mvc.PagedListRenderOptions { LinkToFirstPageFormat = "<< 首页", LinkToPreviousPageFormat = "< 上一页", LinkToNextPageFormat = "下一页 >", LinkToLastPageFormat = "尾页>>", MaximumPageNumbersToDisplay = 5 })
+            </fieldset>
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+</div>

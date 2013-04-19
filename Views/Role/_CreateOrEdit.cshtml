@@ -1,0 +1,25 @@
+@model WebApp4.Entities.Role
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+    @Html.LabelFor(model => model.IsDeleted, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.IsDeleted)
+    @Html.ValidationMessageFor(model => model.IsDeleted)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.RoleName, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.RoleName)
+    @Html.ValidationMessageFor(model => model.RoleName)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.Description)
+    @Html.ValidationMessageFor(model => model.Description)
+</div>
+</div>

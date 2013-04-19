@@ -1,0 +1,32 @@
+@model WebApp4.Entities.User
+@{
+    ViewBag.Title = "Create";
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Partial("_LeftMenu")
+            <!--/.well -->
+        </div>
+        <!--/span-->
+        <div class="span9">
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true)
+
+                <fieldset class="form-horizontal">
+                    <legend>添加 </legend>
+                    @Html.Partial("_CreateOrEdit", Model)
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            确认保存</button>
+                        @Html.ActionLink("返回", "Index", null, new { @class = "btn " })
+                    </div>
+                </fieldset>
+            }
+            <!--/row-->
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+</div>

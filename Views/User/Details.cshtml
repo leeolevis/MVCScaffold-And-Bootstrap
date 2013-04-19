@@ -1,0 +1,128 @@
+@model WebApp4.Entities.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Partial("_LeftMenu")
+            <!--/.well -->
+        </div>
+        <!--/span-->
+        <div class="span9">
+
+                <fieldset class="form-horizontal">
+                    <legend> 
+                查看  </legend>
+					<div class="control-group">
+						@Html.LabelFor(model => model.CreatedOn, new { @class = "control-label" })
+					<div class="controls">
+						@String.Format("{0:g}", Model.CreatedOn)
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.CreatedBy, new { @class = "control-label" })
+					<div class="controls">
+						@Model.CreatedBy
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.ModifiedOn, new { @class = "control-label" })
+					<div class="controls">
+						@String.Format("{0:g}", Model.ModifiedOn)
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.ModifiedBy, new { @class = "control-label" })
+					<div class="controls">
+						@Model.ModifiedBy
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.IsDeleted, new { @class = "control-label" })
+					<div class="controls">
+						@Model.IsDeleted
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.Username, new { @class = "control-label" })
+					<div class="controls">
+						@Model.Username
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.Email, new { @class = "control-label" })
+					<div class="controls">
+						@Model.Email
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.Password, new { @class = "control-label" })
+					<div class="controls">
+						@Model.Password
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.IsConfirmed, new { @class = "control-label" })
+					<div class="controls">
+						@Model.IsConfirmed
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.PasswordFailuresSinceLastSuccess, new { @class = "control-label" })
+					<div class="controls">
+						@Model.PasswordFailuresSinceLastSuccess
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.LastPasswordFailureDate, new { @class = "control-label" })
+					<div class="controls">
+						@String.Format("{0:g}", Model.LastPasswordFailureDate)
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.ConfirmationToken, new { @class = "control-label" })
+					<div class="controls">
+						@Model.ConfirmationToken
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.PasswordChangedDate, new { @class = "control-label" })
+					<div class="controls">
+						@String.Format("{0:g}", Model.PasswordChangedDate)
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.PasswordVerificationToken, new { @class = "control-label" })
+					<div class="controls">
+						@Model.PasswordVerificationToken
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.PasswordVerificationTokenExpirationDate, new { @class = "control-label" })
+					<div class="controls">
+						@String.Format("{0:g}", Model.PasswordVerificationTokenExpirationDate)
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.Roles, new { @class = "control-label" })
+					<div class="controls">
+						@(Model.Roles == null ? "None" : Model.Roles.Count.ToString())
+					</div>
+					</div>
+                    <div class="form-actions">
+													@Html.ActionLink("编辑", "Edit", new { id=Model.Id }, new { @class = "btn btn-primary" })
+							@Html.ActionLink("返回", "Index", null, new { @class = "btn " })
+						                    </div>
+                </fieldset>
+            <!--/row-->
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+</div>
+
+

@@ -1,0 +1,39 @@
+@using BootstrapSupport
+@model Object
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/shared/_BootstrapLayout.basic.cshtml";
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Partial("_LeftMenu")
+            <!--/.well -->
+        </div>
+        <!--/左侧结束-->
+        <div class="span9">
+            <fieldset>
+                <h4>
+                    @Model.GetLabel() <small>Listing</small></h4>
+                <dl>
+                    <!-- use this class on the dl if you want horizontal styling http://twitter.github.com/bootstrap/base-css.html#typography  class="dl-horizontal"-->
+                    @foreach (var property in Model.VisibleProperties())
+                    {
+
+                        <dt>@property.GetLabel().ToSeparatedWords() </dt>
+
+                        <dd>
+                            @Html.Display(property.Name)
+                        </dd>
+                    }
+                </dl>
+            </fieldset>
+            <p>
+                @Html.ActionLink("Edit", "Edit", Model.GetIdValue()) | @Html.ActionLink("Back to List", "Index")
+            </p>
+            <!--/右侧结束-->
+        </div>
+        <!--/span-->
+    </div>
+    <!--/全部内容-->
+</div>

@@ -1,0 +1,197 @@
+﻿<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
+<#@ Output extension="cshtml" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.ComponentModel.DataAnnotations" #>
+<#@ import namespace="System.Data.Linq.Mapping" #>
+<#@ import namespace="System.Data.Objects.DataClasses" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<# var viewDataType = (EnvDTE.CodeType) Model.ViewDataType; #>
+<# if(viewDataType != null) { #>
+@using BootstrapSupport
+@using PagedList.Mvc
+@model <#= viewDataType.FullName #>
+<# } #>
+@{
+    ViewBag.Title = "<#= Model.ViewName #>";
+<# if (!String.IsNullOrEmpty(Model.Layout)) { #>
+    Layout = "<#= Model.Layout #>";
+<# } #>
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Partial("_LeftMenu")
+            <!--/.well -->
+        </div>
+        <!--/span-->
+        <div class="span9">
+            <fieldset class="form-horizontal">
+                <form class="form-search">
+                <input type="text" id="searchParam" runat="server" name="param" value="@Request.QueryString["param"]" placeholder="搜索条件"
+                    class="input-medium search-query" />
+                <button type="submit" class="btn btn-primary">
+                    搜索</button> @Html.ActionLink("添加", "Create", null, new { @class = "btn" })
+                </form>
+                <hr />
+                <table class="table table-striped">
+                    <caption>
+                    </caption>
+                    <thead>
+                        <tr>
+						<#
+						List<ModelProperty> properties = GetModelProperties(Model.ViewDataType, true);
+						foreach (ModelProperty property in properties) {
+							if (!property.IsPrimaryKey && !property.IsForeignKey) {
+						#>
+								<th>
+									@Html.LabelFor(model=>model.<#= property.Name #>)      
+								</th>
+						<#
+							}
+						}
+						#>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+@foreach (var item in ViewBag.OnePageOf<#= viewDataType.Name #>s) 
+                    {
+                        <tr>
+					<#  
+					foreach (ModelProperty property in properties) {
+						if (!property.IsPrimaryKey && !property.IsForeignKey) {
+					#>
+							<td>
+								@<#= property.ValueExpression.Replace("Model.", "item.") #>
+							</td>
+					<#
+						}
+					}
+					#>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">操作 <span class="caret">
+                                    </span></a>
+                                    <ul class="dropdown-menu">
+                                        @{
+                                            @Html.TryPartial("_actions", item as <#= viewDataType.FullName #>)                            
+                            var routevalues = (item as <#= viewDataType.FullName #>).GetIdValue();  
+
+                                            <li>@Html.ActionLink("编辑", "Edit", routevalues)</li>
+
+                                            <li>@Html.ActionLink("查看", "Details", routevalues)</li>
+
+                                            <li class="divider"></li>
+
+                                            <li>@Html.ActionLink("删除", "Delete", routevalues)</li> 
+                                        }
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+@Html.PagedListPager((PagedList.IPagedList)ViewBag.OnePageOf<#= viewDataType.Name #>s, page => Url.Action("Index", new { page = page, param = Request.QueryString["param"] }),
+ new PagedList.Mvc.PagedListRenderOptions { LinkToFirstPageFormat = "<< 首页", LinkToPreviousPageFormat = "< 上一页", LinkToNextPageFormat = "下一页 >", LinkToLastPageFormat = "尾页>>", MaximumPageNumbersToDisplay = 5 })
+
+            </fieldset>
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+</div>
+
+
+<#+
+// Describes the information about a property on the model
+class ModelProperty {
+    public string Name { get; set; }
+    public string ValueExpression { get; set; }
+	public EnvDTE.CodeTypeRef Type { get; set; }
+    public bool IsPrimaryKey { get; set; }
+	public bool IsForeignKey { get; set; }
+	public bool IsReadOnly { get; set; }
+}
+
+// Change this list to include any non-primitive types you think should be eligible to be edited using a textbox
+static Type[] bindableNonPrimitiveTypes = new[] {
+    typeof(string),
+    typeof(decimal),
+    typeof(Guid),
+    typeof(DateTime),
+    typeof(DateTimeOffset),
+    typeof(TimeSpan),
+};
+
+// Call this to get the list of properties in the model. Change this to modify or add your
+// own default formatting for display values.
+List<ModelProperty> GetModelProperties(EnvDTE.CodeType typeInfo, bool includeUnbindableProperties) {
+    List<ModelProperty> results = GetEligibleProperties(typeInfo, includeUnbindableProperties);
+    
+    foreach (ModelProperty prop in results) {
+        if (prop.Type.UnderlyingTypeIs<double>() || prop.Type.UnderlyingTypeIs<decimal>()) {
+            prop.ValueExpression = "String.Format(\"{0:F}\", " + prop.ValueExpression + ")";
+        }
+        else if (prop.Type.UnderlyingTypeIs<DateTime>()) {
+            prop.ValueExpression = "String.Format(\"{0:g}\", " + prop.ValueExpression + ")";
+        }
+		else if (!IsBindableType(prop.Type)) {
+			prop.ValueExpression = GetValueExpression("Model." + prop.Name, (EnvDTE.CodeType)prop.Type.CodeType);
+		}
+    }
+
+    return results;
+}
+
+// Change this list to include the names of properties that should be selected to represent an entity as a single string
+static string[] displayPropertyNames = new[] { "Name", "Title", "LastName", "Surname", "Subject", "Count" };
+
+string GetValueExpression(string propertyExpression, EnvDTE.CodeType propertyType) {
+	if (propertyType != null) {
+		var chosenSubproperty = propertyType.DisplayColumnProperty() ?? propertyType.FindProperty(displayPropertyNames);
+		if (chosenSubproperty != null) {
+			var toStringSuffix = chosenSubproperty.Type.AsFullName == "System.String" ? "" : ".ToString()";
+			return String.Format("({0} == null ? \"None\" : {0}.{1}{2})", propertyExpression, chosenSubproperty.Name, toStringSuffix);
+		}
+	}
+	return "Html.DisplayTextFor(_ => " + propertyExpression + ").ToString()";
+}
+
+// Helper
+List<ModelProperty> GetEligibleProperties(EnvDTE.CodeType typeInfo, bool includeUnbindableProperties) {
+    List<ModelProperty> results = new List<ModelProperty>();
+	if (typeInfo != null) {
+		foreach (var prop in typeInfo.VisibleMembers().OfType<EnvDTE.CodeProperty>()) {
+			if (prop.IsReadable() && !prop.HasIndexParameters() && (includeUnbindableProperties || IsBindableType(prop.Type))) {
+				results.Add(new ModelProperty {
+					Name = prop.Name,
+					ValueExpression = "Model." + prop.Name,
+					Type = prop.Type,
+					IsPrimaryKey = Model.PrimaryKeyName == prop.Name,
+					IsForeignKey = ParentRelations.Any(x => x.RelationProperty == prop),
+					IsReadOnly = !prop.IsWriteable()
+				});
+			}
+		}
+	}
+
+    return results;
+}
+
+IEnumerable<RelatedEntityInfo> ParentRelations {
+	get { return ((IEnumerable)Model.RelatedEntities).OfType<RelatedEntityInfo>().Where(x => x.RelationType == RelationType.Parent); }
+}
+
+// Helper
+bool IsBindableType(EnvDTE.CodeTypeRef type) {
+    return type.UnderlyingIsPrimitive() || bindableNonPrimitiveTypes.Any(x => type.UnderlyingTypeIs(x));
+}
+#>

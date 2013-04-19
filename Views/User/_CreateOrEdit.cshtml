@@ -1,0 +1,39 @@
+@model WebApp4.Entities.User
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+    @Html.LabelFor(model => model.IsDeleted, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.IsDeleted)
+    @Html.ValidationMessageFor(model => model.IsDeleted)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.Username, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.Username)
+    @Html.ValidationMessageFor(model => model.Username)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.Email)
+    @Html.ValidationMessageFor(model => model.Email)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.Password)
+    @Html.ValidationMessageFor(model => model.Password)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.IsConfirmed, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.IsConfirmed)
+    @Html.ValidationMessageFor(model => model.IsConfirmed)
+</div>
+</div>
