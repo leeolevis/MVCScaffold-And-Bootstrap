@@ -10,4 +10,4 @@ MVCScaffold-And-Bootstrap
 <li>Twitter Bootstrap for ASP.Net MVC 4</li>
 </ol>
 
-<img src="http://ww4.sinaimg.cn/bmiddle/4bedad78jw1e3ykfpxrqvj20y20gtgmx.jpg"></img>
+<img src="http://photo.weibo.com/1273867640/wbphotos/large/photo_id/3569952084693611?refer=weibofeedv5"></img>
