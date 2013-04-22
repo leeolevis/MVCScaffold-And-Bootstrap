@@ -1,0 +1,101 @@
+@model WebApp4.Entities.Permission
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Partial("_LeftMenu")
+            <!--/.well -->
+        </div>
+        <!--/span-->
+        <div class="span9">
+
+                <fieldset class="form-horizontal">
+                    <legend> 
+                查看  </legend>
+					<div class="control-group">
+						@Html.LabelFor(model => model.CreatedOn, new { @class = "control-label" })
+					<div class="controls">
+						@String.Format("{0:g}", Model.CreatedOn)
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.CreatedBy, new { @class = "control-label" })
+					<div class="controls">
+						@Model.CreatedBy
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.ModifiedOn, new { @class = "control-label" })
+					<div class="controls">
+						@String.Format("{0:g}", Model.ModifiedOn)
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.ModifiedBy, new { @class = "control-label" })
+					<div class="controls">
+						@Model.ModifiedBy
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.IsDeleted, new { @class = "control-label" })
+					<div class="controls">
+						@Model.IsDeleted
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.PermissionName, new { @class = "control-label" })
+					<div class="controls">
+						@Model.PermissionName
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.Description, new { @class = "control-label" })
+					<div class="controls">
+						@Model.Description
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
+					<div class="controls">
+						@Model.ParentId
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.PermissionTypeEnum, new { @class = "control-label" })
+					<div class="controls">
+						@Html.DisplayTextFor(_ => Model.PermissionTypeEnum).ToString()
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.PermissionType, new { @class = "control-label" })
+					<div class="controls">
+						@Model.PermissionType
+					</div>
+					</div>
+					<div class="control-group">
+						@Html.LabelFor(model => model.Roles, new { @class = "control-label" })
+					<div class="controls">
+						@(Model.Roles == null ? "None" : Model.Roles.Count.ToString())
+					</div>
+					</div>
+				@using (Html.BeginForm()) {
+					<div class="form-actions">
+						<input type="submit" value="确定删除" class="btn btn-primary"/> 
+                        @Html.ActionLink("返回", "Index", null, new { @class = "btn " })
+					</div>
+				}
+                </fieldset>
+
+            <!--/row-->
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+</div>
+
+

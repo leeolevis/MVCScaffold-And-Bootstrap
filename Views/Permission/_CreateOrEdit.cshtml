@@ -1,0 +1,40 @@
+@model WebApp4.Entities.Permission
+@using BootstrapSupport
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+    @Html.LabelFor(model => model.IsDeleted, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.IsDeleted)
+    @Html.ValidationMessageFor(model => model.IsDeleted)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.PermissionName, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.PermissionName)
+    @Html.ValidationMessageFor(model => model.PermissionName)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.Description)
+    @Html.ValidationMessageFor(model => model.Description)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
+<div class="controls">
+    @Html.EditorFor(model => model.ParentId)
+    @Html.ValidationMessageFor(model => model.ParentId)
+</div>
+</div>
+<div class="control-group">
+    @Html.LabelFor(model => model.PermissionType, new { @class = "control-label" })
+<div class="controls">
+    @Html.EnumDropDownListFor(model => model.PermissionTypeEnum)
+    @Html.ValidationMessageFor(model => model.PermissionType)
+</div>
+</div>

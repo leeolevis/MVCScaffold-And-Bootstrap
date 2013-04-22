@@ -13,6 +13,8 @@ namespace WebApp4.Entities
         [DisplayFormat]
         public virtual ICollection<User> Users { get; set; }
 
+        public virtual ICollection<Permission> Roles { get; set; }
+
         [Required()]
         [MaxLength(100)]
         [Display(Name="½ÇÉ«Ãû³Æ")]

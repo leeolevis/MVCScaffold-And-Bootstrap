@@ -18,5 +18,7 @@ namespace WebApp4.Infrastructure
 
         public DbSet<WebApp4.Entities.User> User { get; set; }
 
+        public DbSet<WebApp4.Entities.Permission> Permission { get; set; }
+
     }
 }
