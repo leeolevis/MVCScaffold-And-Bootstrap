@@ -19,3 +19,5 @@ MVCScaffold-And-Bootstrap
 <li>执行Update-Database去生成或更新数据库</li>
 <li>执行Scaffold Controller Role -Repository -Forece生成代码</li>
 </ol>
+
+# 为雅安祈福，为四川祈福 #
