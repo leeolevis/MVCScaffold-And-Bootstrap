@@ -15,7 +15,7 @@ MVCScaffold-And-Bootstrap
 
 <ol>
 <li>执行Enable-Migrations命令启用数据库迁移</li>
-<li>执行Add-Migration Initialize去生成数据库配置</li>
+<li>执行Add-Migration Initialize去初始化数据库</li>
 <li>执行Update-Database去生成或更新数据库</li>
 <li>执行Scaffold Controller Role -Repository -Forece生成代码</li>
 </ol>
