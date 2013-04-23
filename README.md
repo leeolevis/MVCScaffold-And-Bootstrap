@@ -1,7 +1,7 @@
 MVCScaffold-And-Bootstrap
 =========================
 
-这是用MVCScaffold和Bootstrap混合搭建的一个后台架子，在使用上和Ruby On Rails有异曲同工之妙
+这是用MVCScaffold和Bootstrap混合搭建的一个后台框架，可以让你快速的构建UI、Controller和Repository的代码
 <br/>
 # Nuget Install-package #
 <ol>
@@ -10,4 +10,4 @@ MVCScaffold-And-Bootstrap
 <li>Twitter Bootstrap for ASP.Net MVC 4</li>
 </ol>
 
-<img src="http://ww4.sinaimg.cn/bmiddle/4bedad78jw1e3ykfpxrqvj20y20gtgmx.jpg"></img>
+<img src="http://pic.yupoo.com/leeolevis/CO7htGX2/medish.jpg"></img>
