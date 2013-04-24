@@ -66,15 +66,9 @@
 					</div>
 					</div>
 					<div class="control-group">
-						@Html.LabelFor(model => model.PermissionTypeEnum, new { @class = "control-label" })
-					<div class="controls">
-						@Html.DisplayTextFor(_ => Model.PermissionTypeEnum).ToString()
-					</div>
-					</div>
-					<div class="control-group">
 						@Html.LabelFor(model => model.PermissionType, new { @class = "control-label" })
 					<div class="controls">
-						@Model.PermissionType
+						@Html.DisplayTextFor(_ => Model.PermissionType).ToString()
 					</div>
 					</div>
 					<div class="control-group">

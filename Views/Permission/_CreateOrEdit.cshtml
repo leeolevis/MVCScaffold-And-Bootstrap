@@ -1,6 +1,5 @@
 @model WebApp4.Entities.Permission
 @using BootstrapSupport
-
 @* This partial view defines form fields that will appear when creating and editing entities *@
 
 <div class="control-group">
@@ -31,10 +30,11 @@
     @Html.ValidationMessageFor(model => model.ParentId)
 </div>
 </div>
+
 <div class="control-group">
     @Html.LabelFor(model => model.PermissionType, new { @class = "control-label" })
 <div class="controls">
-    @Html.EnumDropDownListFor(model => model.PermissionTypeEnum)
+    @Html.EnumDropDownListFor(model => model.PermissionType)
     @Html.ValidationMessageFor(model => model.PermissionType)
 </div>
 </div>

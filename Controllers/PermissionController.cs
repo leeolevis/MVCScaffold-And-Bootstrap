@@ -14,7 +14,7 @@ namespace WebApp4.Controllers
 {   
     public class PermissionController : BootstrapBaseController
     {
-        private readonly string[] updateAttr = new string[] { "PermissionType" };
+        private readonly string[] updateAttr = new string[] {  };
 		private readonly IPermissionRepository permissionRepository;
 
 		// If you are using Dependency Injection, you can delete the following constructor

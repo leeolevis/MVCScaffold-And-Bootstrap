@@ -38,5 +38,7 @@ E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\PagedList.xml
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\PagedList.Mvc.xml
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\EntityFramework.dll
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\EntityFramework.xml
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\EntityFramework.SqlServer.dll
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\EntityFramework.SqlServer.xml
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\obj\Debug\WebApp4.Migrations.Initialize.resources
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\obj\Debug\WebApp4.csproj.GenerateResource.Cache

@@ -32,15 +32,17 @@ namespace WebApp4.Entities
         [Display(Name = "权限父项")]
         public virtual Guid ParentId { get; set; }
 
-        //public Enum.PermissionTypeEnum PermissionType { get; set; }
-        public Enum.PermissionTypeEnum PermissionTypeEnum { get; set; }
-
         [Display(Name = "权限类型")]
-        public virtual int PermissionType
-        {
-            get { return (int)PermissionTypeEnum; }
-            set { PermissionTypeEnum = (Enum.PermissionTypeEnum)value; }
-        }
+        public PermissionTypeEnum PermissionType { get; set; }
+
+        //public Enum.PermissionTypeEnum PermissionTypeEnum { get; set; }
+
+        //[Display(Name = "权限类型")]
+        //public virtual int PermissionType
+        //{
+        //    get { return (int)PermissionTypeEnum; }
+        //    set { PermissionTypeEnum = (Enum.PermissionTypeEnum)value; }
+        //}
 
         public virtual ICollection<Role> Roles { get; set; }
         //[ForeignKey("PermissionId")]
