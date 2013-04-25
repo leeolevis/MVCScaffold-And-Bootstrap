@@ -21,6 +21,8 @@ namespace WebApp4
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BootstrapSupport.BootstrapBundleConfig.RegisterBundles(System.Web.Optimization.BundleTable.Bundles);
             BootstrapMvcSample.ExampleLayoutsRouteConfig.RegisterRoutes(RouteTable.Routes);
+            //Unity依赖注入
+            Bootstrapper.Initialise();
         }
     }
 }

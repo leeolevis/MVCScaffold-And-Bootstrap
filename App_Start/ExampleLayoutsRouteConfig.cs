@@ -19,7 +19,7 @@ namespace BootstrapMvcSample
             routes.MapNavigationRoute<ExampleLayoutsController>("Admin", c => c.Starter())
                   .AddChildRoute<UserController>("个人设置", c => c.Setting())
                   .AddChildRoute<UserController>("密码修改", c => c.Password())
-                  .AddChildRoute<UserController>("退出登录", c => c.Login())
+                  .AddChildRoute<UserController>("退出登录", c => c.LogOff())
                 ;
         }
     }

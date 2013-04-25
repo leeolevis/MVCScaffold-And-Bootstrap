@@ -5,12 +5,12 @@
     Layout = "~/Views/shared/_BootstrapLayout.empty.cshtml";
 }
 
-        <form class="form-signin">
+        <form class="form-signin" method="post">
         <h2 class="form-signin-heading">请登录</h2>
-        <input type="text" class="input-block-level" placeholder="Email address"/>
-        <input type="password" class="input-block-level" placeholder="Password"/>
+        <input name="email" type="text" class="input-block-level" placeholder="Email address"/>
+        <input name="password" type="password" class="input-block-level" placeholder="Password"/>
         <label class="checkbox">
-          <input type="checkbox" value="remember-me"/> 记住密码
+          <input name="forgetPWD" type="checkbox" /> 记住密码
         </label>
         <button class="btn btn-large btn-primary" type="submit">登录</button>
         </form>

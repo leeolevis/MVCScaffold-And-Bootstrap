@@ -11,24 +11,25 @@ using PagedList;
 using BootstrapMvcSample.Controllers;
 
 namespace WebApp4.Controllers
-{   
+{
     public class PermissionController : BootstrapBaseController
     {
-        private readonly string[] updateAttr = new string[] {  };
-		private readonly IPermissionRepository permissionRepository;
+        private readonly string[] updateAttr = new string[] { "PermissionName", "Description", "ParentId", "PermissionType", "ModifiedOn", "ModifiedBy", "IsDeleted" };
+        private readonly IPermissionRepository permissionRepository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public PermissionController() : this(new PermissionRepository())
-        {
-        }
+        // If you are using Dependency Injection, you can delete the following constructor
+        //public PermissionController()
+        //    : this(new PermissionRepository())
+        //{
+        //}
 
         public PermissionController(IPermissionRepository permissionRepository)
         {
-			this.permissionRepository = permissionRepository;
-         }
+            this.permissionRepository = permissionRepository;
+        }
 
-		//
-		// Search Method
+        //
+        // Search Method
 
         private List<SearchCondition> BuildCondition()
         {
@@ -41,9 +42,9 @@ namespace WebApp4.Controllers
 
         public ViewResult Index(int? page)
         {
-            var pageIndex = (page ?? 1) - 1; 
+            var pageIndex = (page ?? 1) - 1;
             var pageSize = 5;
-            int totalCount; 
+            int totalCount;
 
             Specification<Permission> c = SpecificationBuilder.BuildSpecification<Permission>(BuildCondition());
 
@@ -52,7 +53,7 @@ namespace WebApp4.Controllers
             var permissionsAsIPagedList = new StaticPagedList<Permission>(permissions, pageIndex + 1, pageSize, totalCount);
             ViewBag.OnePageOfpermissions = permissionsAsIPagedList;
 
-			return View();
+            return View();
         }
 
         //
@@ -69,7 +70,7 @@ namespace WebApp4.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /Permission/Create
@@ -77,26 +78,26 @@ namespace WebApp4.Controllers
         [HttpPost]
         public ActionResult Create(Permission permission)
         {
-            if (ModelState.IsValid) 
-			{
+            if (ModelState.IsValid)
+            {
                 permissionRepository.InsertOrUpdate(permission);
                 permissionRepository.Save();
                 Success("\u4fdd\u5b58\u6210\u529f\uff01");
                 return RedirectToAction("Index");
-            } 
-			else
-			{
+            }
+            else
+            {
                 Error("\u4fdd\u5b58\u5931\u8d25\uff0c\u8868\u5355\u4e2d\u5b58\u5728\u4e00\u4e9b\u9519\u8bef\uff01");
-				return View();
-			}
+                return View();
+            }
         }
-        
+
         //
         // GET: /Permission/Edit/5
- 
+
         public ActionResult Edit(System.Guid id)
         {
-             return View(permissionRepository.Find(id));
+            return View(permissionRepository.Find(id));
         }
 
         //
@@ -105,23 +106,23 @@ namespace WebApp4.Controllers
         [HttpPost]
         public ActionResult Edit(Permission permission)
         {
-            if (ModelState.IsValid) 
-			{
+            if (ModelState.IsValid)
+            {
                 permissionRepository.InsertOrUpdate(permission, updateAttr);
                 permissionRepository.Save();
                 Success("\u4fee\u6539\u6210\u529f\uff01");
                 return RedirectToAction("Index");
-            } 
-			else 
-			{
+            }
+            else
+            {
                 Error("\u4fee\u6539\u5931\u8d25\uff0c\u8868\u5355\u4e2d\u5b58\u5728\u4e00\u4e9b\u9519\u8bef\uff01");
-				return View();
-			}
+                return View();
+            }
         }
 
         //
         // GET: /Permission/Delete/5
- 
+
         public ActionResult Delete(System.Guid id)
         {
             return View(permissionRepository.Find(id));

@@ -42,3 +42,11 @@ E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\EntityFramework.SqlServer.dl
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\EntityFramework.SqlServer.xml
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\obj\Debug\WebApp4.Migrations.Initialize.resources
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\obj\Debug\WebApp4.csproj.GenerateResource.Cache
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.ServiceLocation.dll
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.Unity.Configuration.dll
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.Unity.dll
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Unity.Mvc4.dll
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.ServiceLocation.pdb
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.ServiceLocation.xml
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.Unity.xml
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.Unity.Configuration.xml

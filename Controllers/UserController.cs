@@ -9,26 +9,29 @@ using WebApp4.Entities;
 using WebApp4.Models;
 using PagedList;
 using BootstrapMvcSample.Controllers;
+using WebApp4.Membership;
+using System.Web.Security;
 
 namespace WebApp4.Controllers
-{   
+{
     public class UserController : BootstrapBaseController
     {
-        private readonly string[] updateAttr = new string[] {  };
-		private readonly IUserRepository userRepository;
+        private readonly string[] updateAttr = new string[] { };
+        private readonly IUserRepository userRepository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public UserController() : this(new UserRepository())
-        {
-        }
+        // If you are using Dependency Injection, you can delete the following constructor
+        //public UserController()
+        //    : this(new UserRepository())
+        //{
+        //}
 
         public UserController(IUserRepository userRepository)
         {
-			this.userRepository = userRepository;
-         }
+            this.userRepository = userRepository;
+        }
 
-		//
-		// Search Method
+        //
+        // Search Method
 
         private List<SearchCondition> BuildCondition()
         {
@@ -51,14 +54,52 @@ namespace WebApp4.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Login(FormCollection collection, string returnUrl)
+        {
+            string userMail, userPwd;
+            userMail = collection["email"];
+            userPwd = collection["password"];
+            bool rememberMe = (collection["forgetPWD"] == "on" ? true : false);
+            if (ModelState.IsValid)
+            {
+                if (CodeFirstSecurity.Login(userMail, userPwd, rememberMe))
+                {
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View();
+        }
+
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("login", "user");
+        }
+
         //
         // GET: /User/
 
         public ViewResult Index(int? page)
         {
-            var pageIndex = (page ?? 1) - 1; 
+            var pageIndex = (page ?? 1) - 1;
             var pageSize = 5;
-            int totalCount; 
+            int totalCount;
 
             Specification<User> c = SpecificationBuilder.BuildSpecification<User>(BuildCondition());
 
@@ -67,7 +108,7 @@ namespace WebApp4.Controllers
             var usersAsIPagedList = new StaticPagedList<User>(users, pageIndex + 1, pageSize, totalCount);
             ViewBag.OnePageOfusers = usersAsIPagedList;
 
-			return View();
+            return View();
         }
 
         //
@@ -84,7 +125,7 @@ namespace WebApp4.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /User/Create
@@ -92,26 +133,28 @@ namespace WebApp4.Controllers
         [HttpPost]
         public ActionResult Create(User user)
         {
-            if (ModelState.IsValid) 
-			{
+            if (ModelState.IsValid)
+            {
+                user.Password = CodeFirstCrypto.HashPassword(user.Password);
+                //CodeFirstSecurity.CreateAccount(user.Username, user.Password, user.Email, false);
                 userRepository.InsertOrUpdate(user);
                 userRepository.Save();
                 Success("\u4fdd\u5b58\u6210\u529f\uff01");
                 return RedirectToAction("Index");
-            } 
-			else
-			{
+            }
+            else
+            {
                 Error("\u4fdd\u5b58\u5931\u8d25\uff0c\u8868\u5355\u4e2d\u5b58\u5728\u4e00\u4e9b\u9519\u8bef\uff01");
-				return View();
-			}
+                return View();
+            }
         }
-        
+
         //
         // GET: /User/Edit/5
- 
+
         public ActionResult Edit(System.Guid id)
         {
-             return View(userRepository.Find(id));
+            return View(userRepository.Find(id));
         }
 
         //
@@ -120,23 +163,23 @@ namespace WebApp4.Controllers
         [HttpPost]
         public ActionResult Edit(User user)
         {
-            if (ModelState.IsValid) 
-			{
+            if (ModelState.IsValid)
+            {
                 userRepository.InsertOrUpdate(user, updateAttr);
                 userRepository.Save();
                 Success("\u4fee\u6539\u6210\u529f\uff01");
                 return RedirectToAction("Index");
-            } 
-			else 
-			{
+            }
+            else
+            {
                 Error("\u4fee\u6539\u5931\u8d25\uff0c\u8868\u5355\u4e2d\u5b58\u5728\u4e00\u4e9b\u9519\u8bef\uff01");
-				return View();
-			}
+                return View();
+            }
         }
 
         //
         // GET: /User/Delete/5
- 
+
         public ActionResult Delete(System.Guid id)
         {
             return View(userRepository.Find(id));

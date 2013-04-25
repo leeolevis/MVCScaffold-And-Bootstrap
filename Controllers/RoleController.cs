@@ -11,29 +11,51 @@ using PagedList;
 using BootstrapMvcSample.Controllers;
 
 namespace WebApp4.Controllers
-{   
+{
     public class RoleController : BootstrapBaseController
     {
-        private readonly string[] updateAttr = new string[] {  };
-		private readonly IRoleRepository roleRepository;
+        private readonly string[] updateAttr = new string[] { "RoleName", "Description", "ModifiedOn", "ModifiedBy", "IsDeleted" };
+        private readonly IRoleRepository roleRepository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public RoleController() : this(new RoleRepository())
-        {
-        }
+        //// If you are using Dependency Injection, you can delete the following constructor
+        //public RoleController()
+        //    : this(new RoleRepository())
+        //{
+        //}
 
         public RoleController(IRoleRepository roleRepository)
         {
-			this.roleRepository = roleRepository;
-         }
+            this.roleRepository = roleRepository;
+        }
 
-		//
-		// Search Method
+        //
+        // Search Method
 
-        private List<SearchCondition> BuildCondition()
+        private List<SearchConditionGroup> BuildCondition()
         {
-            List<SearchCondition> _sc = new List<SearchCondition>();
-            return _sc;
+            List<SearchConditionGroup> _scgList = new List<SearchConditionGroup>();
+
+            //
+            List<SearchCondition> _sc1 = new List<SearchCondition>();
+            string param = Request.QueryString["param"];
+            if (!string.IsNullOrEmpty(param))
+            {
+                _sc1.Add(new SearchCondition() { PropertyName = "RoleName", Operation = SearchOperationEnum.Contains, PropertyValue = param });
+            }
+            SearchConditionGroup _scg1 = new SearchConditionGroup() {ConditionList=_sc1,ConstraintType=ConstraintType.Or };
+
+            //
+            List<SearchCondition> _sc2 = new List<SearchCondition>();
+            if (!string.IsNullOrEmpty(param))
+            {
+                _sc2.Add(new SearchCondition() { PropertyName = "Description", Operation = SearchOperationEnum.Contains, PropertyValue = param });
+            }
+
+            SearchConditionGroup _scg2 = new SearchConditionGroup() { ConditionList = _sc2, ConstraintType = ConstraintType.And };
+
+            _scgList.Add(_scg1);
+            _scgList.Add(_scg2);
+            return _scgList;
         }
 
         //
@@ -41,9 +63,9 @@ namespace WebApp4.Controllers
 
         public ViewResult Index(int? page)
         {
-            var pageIndex = (page ?? 1) - 1; 
+            var pageIndex = (page ?? 1) - 1;
             var pageSize = 5;
-            int totalCount; 
+            int totalCount;
 
             Specification<Role> c = SpecificationBuilder.BuildSpecification<Role>(BuildCondition());
 
@@ -52,7 +74,7 @@ namespace WebApp4.Controllers
             var rolesAsIPagedList = new StaticPagedList<Role>(roles, pageIndex + 1, pageSize, totalCount);
             ViewBag.OnePageOfroles = rolesAsIPagedList;
 
-			return View();
+            return View();
         }
 
         //
@@ -69,7 +91,7 @@ namespace WebApp4.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /Role/Create
@@ -77,26 +99,26 @@ namespace WebApp4.Controllers
         [HttpPost]
         public ActionResult Create(Role role)
         {
-            if (ModelState.IsValid) 
-			{
+            if (ModelState.IsValid)
+            {
                 roleRepository.InsertOrUpdate(role);
                 roleRepository.Save();
                 Success("\u4fdd\u5b58\u6210\u529f\uff01");
                 return RedirectToAction("Index");
-            } 
-			else
-			{
+            }
+            else
+            {
                 Error("\u4fdd\u5b58\u5931\u8d25\uff0c\u8868\u5355\u4e2d\u5b58\u5728\u4e00\u4e9b\u9519\u8bef\uff01");
-				return View();
-			}
+                return View();
+            }
         }
-        
+
         //
         // GET: /Role/Edit/5
- 
+
         public ActionResult Edit(System.Guid id)
         {
-             return View(roleRepository.Find(id));
+            return View(roleRepository.Find(id));
         }
 
         //
@@ -105,23 +127,23 @@ namespace WebApp4.Controllers
         [HttpPost]
         public ActionResult Edit(Role role)
         {
-            if (ModelState.IsValid) 
-			{
+            if (ModelState.IsValid)
+            {
                 roleRepository.InsertOrUpdate(role, updateAttr);
                 roleRepository.Save();
                 Success("\u4fee\u6539\u6210\u529f\uff01");
                 return RedirectToAction("Index");
-            } 
-			else 
-			{
+            }
+            else
+            {
                 Error("\u4fee\u6539\u5931\u8d25\uff0c\u8868\u5355\u4e2d\u5b58\u5728\u4e00\u4e9b\u9519\u8bef\uff01");
-				return View();
-			}
+                return View();
+            }
         }
 
         //
         // GET: /Role/Delete/5
- 
+
         public ActionResult Delete(System.Guid id)
         {
             return View(roleRepository.Find(id));
