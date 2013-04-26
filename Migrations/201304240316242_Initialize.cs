@@ -63,6 +63,19 @@ namespace WebApp4.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.Logs",
+                c => new
+                    {
+                        LogId = c.Int(nullable: false, identity: true),
+                        CreateDate = c.String(maxLength: 50),
+                        Origin = c.String(maxLength: 50),
+                        LogLevel = c.String(maxLength: 20),
+                        Message = c.String(maxLength: 200),
+                        StackTrace = c.String(maxLength: 200),
+                    })
+                .PrimaryKey(t => t.LogId);
+            
+            CreateTable(
                 "dbo.UserRoles",
                 c => new
                     {
@@ -102,6 +115,7 @@ namespace WebApp4.Migrations
             DropIndex("dbo.UserRoles", new[] { "User_Id" });
             DropTable("dbo.PermissionRoles");
             DropTable("dbo.UserRoles");
+            DropTable("dbo.Logs");
             DropTable("dbo.Permissions");
             DropTable("dbo.Users");
             DropTable("dbo.Roles");

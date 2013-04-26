@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using WebApp4.Infrastructure;
 
 namespace WebApp4
 {
@@ -7,7 +8,9 @@ namespace WebApp4
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            var logger = DependencyResolver.Current.GetService<ILogger>();
+            filters.Add(new NLogMvcHandleErrorAttribute(logger));
+            //filters.Add(new HandleErrorAttribute());
         }
     }
 }

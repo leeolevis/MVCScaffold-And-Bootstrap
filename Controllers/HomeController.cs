@@ -4,18 +4,27 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Models;
+using NLog;
+using WebApp4.Infrastructure;
 
 namespace BootstrapMvcSample.Controllers
 {
     public class HomeController : BootstrapBaseController
     {
         private static List<HomeInputModel> _models = ModelIntializer.CreateHomeInputModels();
-        [Authorize]
+        private readonly ILogger logger;
+
+        public HomeController(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
         public ActionResult Index()
         {
-
+            //logger.Trace("NoIoc");
             var homeInputModels = _models;
-            return View(homeInputModels);
+            throw new Exception();
+            //return View(homeInputModels);
         }
 
         [HttpPost]

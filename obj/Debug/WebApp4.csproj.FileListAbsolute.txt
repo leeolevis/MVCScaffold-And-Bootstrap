@@ -50,3 +50,6 @@ E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.ServiceL
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.ServiceLocation.xml
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.Unity.xml
 E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\Microsoft.Practices.Unity.Configuration.xml
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\NLog.config
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\NLog.dll
+E:\Test\CompanyProject\1.1 Presentation\WebApp4\bin\NLog.xml

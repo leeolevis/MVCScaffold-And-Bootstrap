@@ -20,5 +20,6 @@ namespace WebApp4.Infrastructure
 
         public DbSet<WebApp4.Entities.Permission> Permission { get; set; }
 
+        public DbSet<WebApp4.Entities.Log> Log { get; set; }
     }
 }

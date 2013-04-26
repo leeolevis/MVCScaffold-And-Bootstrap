@@ -9,6 +9,8 @@ using WebApp4.Entities;
 using WebApp4.Models;
 using PagedList;
 using BootstrapMvcSample.Controllers;
+using NLog;
+using WebApp4.Infrastructure;
 
 namespace WebApp4.Controllers
 {
@@ -16,6 +18,7 @@ namespace WebApp4.Controllers
     {
         private readonly string[] updateAttr = new string[] { "RoleName", "Description", "ModifiedOn", "ModifiedBy", "IsDeleted" };
         private readonly IRoleRepository roleRepository;
+        private readonly ILogger logger;
 
         //// If you are using Dependency Injection, you can delete the following constructor
         //public RoleController()
@@ -23,9 +26,10 @@ namespace WebApp4.Controllers
         //{
         //}
 
-        public RoleController(IRoleRepository roleRepository)
+        public RoleController(IRoleRepository roleRepository, ILogger logger)
         {
             this.roleRepository = roleRepository;
+            this.logger = logger;
         }
 
         //
@@ -63,6 +67,8 @@ namespace WebApp4.Controllers
 
         public ViewResult Index(int? page)
         {
+            logger.Trace("Ioc");
+
             var pageIndex = (page ?? 1) - 1;
             var pageSize = 5;
             int totalCount;

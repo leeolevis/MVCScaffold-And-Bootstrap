@@ -2,6 +2,7 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
 using WebApp4.Models;
+using WebApp4.Infrastructure;
 
 namespace WebApp4
 {
@@ -25,9 +26,15 @@ namespace WebApp4
 
       // e.g. container.RegisterType<ITestService, TestService>();    
 
+      //Repository
       container.RegisterType<IUserRepository, UserRepository>();
       container.RegisterType<IRoleRepository, RoleRepository>();
-      container.RegisterType<IPermissionRepository, PermissionRepository>(); 
+      container.RegisterType<IPermissionRepository, PermissionRepository>();
+
+      //Infrastructure
+      container.RegisterType<ILogger, Logger>();
+
+
       RegisterTypes(container);
 
       return container;
