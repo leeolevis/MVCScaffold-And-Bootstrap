@@ -21,8 +21,9 @@ namespace BootstrapMvcSample.Controllers
 
         public ActionResult Index()
         {
-            //logger.Trace("NoIoc");
+            logger.Trace("NoIoc");
             var homeInputModels = _models;
+            //NLog异常记录测试
             throw new Exception();
             //return View(homeInputModels);
         }

@@ -27,7 +27,7 @@ namespace WebApp4
 		/// <exception cref="T:System.ArgumentNullException">The <paramref name="filterContext"/> parameter is null.</exception>
 		public override void OnException(ExceptionContext filterContext)
 		{
-            this.logger.Error(string.Format("意外捕获错误 {0}", filterContext.Exception.Message), filterContext.Exception);
+            this.logger.Error(string.Format("意外捕获错误 {0}", filterContext.Exception.StackTrace), filterContext.Exception);
 			base.OnException(filterContext);
 		}
 	}
