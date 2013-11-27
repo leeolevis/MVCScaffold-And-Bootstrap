@@ -6,9 +6,9 @@ MVCScaffold-And-Bootstrap
 
 # Nuget Install-package #
 <ol>
-<li>Install-package MVCScaffold</li>
-<li>Install-package PageList.MVC</li>
-<li>Install-package Twitter Bootstrap for ASP.Net MVC 4</li>
+<li>Install-Package MVCScaffold</li>
+<li>Install-Package PagedList.Mvc</li>
+<li>Install-Package Twitter Bootstrap for ASP.Net MVC 4</li>
 </ol>
 
 # PMC Usage #
