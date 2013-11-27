@@ -6,7 +6,7 @@ MVCScaffold-And-Bootstrap
 
 # Nuget Install-package #
 <ol>
-<li>Install-Package MVCScaffold</li>
+<li>Install-Package MvcScaffolding</li>
 <li>Install-Package PagedList.Mvc</li>
 <li>Install-Package Twitter Bootstrap for ASP.Net MVC 4</li>
 </ol>
