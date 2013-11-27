@@ -8,7 +8,7 @@ MVCScaffold-And-Bootstrap
 <ol>
 <li>Install-Package MvcScaffolding</li>
 <li>Install-Package PagedList.Mvc</li>
-<li>Install-Package Twitter Bootstrap for ASP.Net MVC 4</li>
+<li>Install-Package twitter.bootstrap.mvc4</li>
 </ol>
 
 # PMC Usage #
